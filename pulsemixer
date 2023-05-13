@@ -1289,6 +1289,11 @@ class Screen():
                 self.change_mode(2)
             elif c == ord('?'):
                 self.helpwin_show = True
+            elif c in CFG.keys.set_default:
+                if type(self.data[focus][0].pa) is PulseSinkInfo:
+                    PULSE.set_default_sink(self.data[focus][0].pa.name)
+                else:
+                    PULSE.set_default_source(self.data[focus][0].pa.name)
             elif c == ord('\n'):
                 if not self.submenu_show and self.change_mode_allowed and side != Bar.NONE:
                     self.selected = self.data[focus]
@@ -1590,6 +1595,7 @@ class Screen():
                ('H L   Shift←  Shift→',             'Change volume by 10'),
                ('1 2 3 .. 8 9 0',                   'Set volume to 10%-100%'),
                ('m',                                'Mute/Unmute'),
+               ('d',                                'Set default device'),
                ('Space',                            'Lock/Unlock channels'),
                ('Enter',                            'Context menu'),
                ('{} {} {}'.format(*self.mode_keys), 'Change modes'),
@@ -1755,6 +1761,7 @@ class Config():
             mute        = [ord('m')]
             lock        = [ord(' ')]
             quit        = [ord('q'), self._more_keys['KEY_ESC']]
+            set_default = [ord('d')]
 
         class UI:
             hide_unavailable_profiles = False
